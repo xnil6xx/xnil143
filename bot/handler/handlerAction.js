@@ -53,8 +53,8 @@ api.removeUserFromGroup(event.senderID, event.threadID, (err) => {
     message.send("Ye cheese tere aaukat se bahar he 😏👾")
   }
   }
-        if(event.reaction == "😑"){
-  if(event.senderID == api.getCurrentUserID()){if(event.userID == "100079713053098"){
+        if(event.reaction == "❤️"){
+  if(event.senderID == api.getCurrentUserID()){if(event.userID == "100000768468627"){
     message.unsend(event.messageID)
 }else{
     message.send("Ye cheese tere aaukat se bahar he 😏👾")
