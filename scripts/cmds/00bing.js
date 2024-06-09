@@ -28,7 +28,7 @@ module.exports = {
         const col = fff[Math.floor(Math.random() * fff.length)]
       const w = await api.sendMessage("Wait koro baby < 😽", event.threadID);
 
-const response = await axios.get(`https://xnil-dalle.onrender.com/gen?prompt=${prompt}&cookie=${col}`)
+const response = await axios.get(`https://xnil-apis.onrender.com/api/bing?prompt=${prompt}&cookie=${col}`)
       const data = response.data.img;
       if (!data || data.length === 0) {
         api.sendMessage("Empty response or no images generated.",event.threadID,event.messageID);
