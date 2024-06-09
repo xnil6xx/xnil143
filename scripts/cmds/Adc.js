@@ -1,89 +1,65 @@
-const fs = require("fs-extra");
-const axios = require("axios");
-const request = require("request");
-const cheerio = require("cheerio");
-const { PasteClient } = require("pastebin-api");
-
 module.exports = {
-  config: {
-    name: "adc",
-    version: "1.1",
-    author: "NIB",
-    countDown: 5,
-    role: 0,
-    shortDescription: {
-      vi: "",
-      en: "Apply code from buildtooldev and pastebin",
-    },
-    longDescription: {
-      vi: "",
-      en: "This command applies code from buildtooldev and pastebin",
-    },
-    category: "owner",
-    guide: "Reply to a link or provide a text",
-    dependencies: {
-      "pastebin-api": "",
-      "cheerio": "",
-      "request": "",
-      "axios": "",
-    },
-  },
-
-  onStart: async function ({
-    event,
-    message,
-    getLang,
-    usersData,
-    api,
-    args,
-  }) {
-    const a = args.join(" ");
-    const permission = global.GoatBot.config.DEV;
-    if (!permission.includes(event.senderID))
-      return api.sendMessage(a, event.threadID, event.messageID);
-
+	config: {
+		name: "adc",
+		aliases: ["adc"],
+		version: "1.2",
+		author: "Loid Butter",//Follow Loid Senpai FB https://www.facebook.com/loidofficiaI
+		countDown: 5,
+		role: 2,
+		shortDescription: {
+			vi: "",
+			en: "adc command"
+		},
+		longDescription: {
+			vi: "",
+			en: "only bot owner"
+		},
+		category: "owner", 
+		guide: {
+			en: "{pn}"
+		}
+	},
+	
+onStart: async function({ api, event, args }) {
+  const permission = global.GoatBot.config.DEV;
+ if (!permission.includes(event.senderID))
+ return api.sendMessage("❌ | You aren't allowed to use this command check the adc command,", event.threadID, event.messageID);
+    const axios = require('axios');
+    const fs = require('fs');
+    const request = require('request');
+    const cheerio = require('cheerio');
+    const { join, resolve } = require("path");
     const { senderID, threadID, messageID, messageReply, type } = event;
     var name = args[0];
     if (type == "message_reply") {
-      var text = messageReply.body;
+        var text = messageReply.body;
     }
-    if (!text && !name)
-      return api.sendMessage(
-        "Please reply to the link you want to apply the code to or write the file name to upload the code to pastebin!",
-        threadID,
-        messageID
-      );
-
-    // Upload file to Pastebin
-    if (!text && name) {
-      fs.readFile(`${__dirname}/${args[0]}.js`, "utf-8", async (err, data) => {
-        if (err)
-          return api.sendMessage(
-            `Command ${args[0]} does not exist!`,
-            threadID,
-            messageID
-          );
-
-        const client = new PasteClient("ZXkfZgcEonOOu7EQQwy7pvmjfN5n1-Dy");
-
-        async function pastepin(name) {
-          const url = await client.createPaste({
-            code: data,
-            expireDate: "N",
-            format: "javascript",
-            name: name,
-            publicity: 1,
-          });
-          var id = url.split("/")[3];
-          return "https://pastebin.com/raw/" + id;
-        }
-
-        var link = await pastepin(args[1] || "noname");
-        return api.sendMessage(link, threadID, messageID);
-      });
-      return;
+    if(!text && !name) return api.sendMessage('Please reply to the link you want to apply the code to or write the file name to upload the code to pastebin!', threadID, messageID);
+    if(!text && name) {
+        var data = fs.readFile(
+          `${__dirname}/${args[0]}.js`,
+          "utf-8",
+          async (err, data) => {
+            if (err) return api.sendMessage(`Command ${args[0]} does not exist!.`, threadID, messageID);
+            const { PasteClient } = require('pastebin-api')
+            const client = new PasteClient("N5NL5MiwHU6EbQxsGtqy7iaodOcHithV");
+            async function pastepin(name) {
+              const url = await client.createPaste({
+                code: data,
+                expireDate: 'N',
+                format: "javascript",
+                name: name,
+                publicity: 1
+              });
+              var id = url.split('/')[3]
+              return 'https://pastebin.com/raw/' + id
+            }
+            var link = await pastepin(args[1] || 'noname')
+            return api.sendMessage(link, threadID, messageID);
+          }
+        );
+        return
     }
-
     var urlR = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
     var url = text.match(urlR);
     if (url[0].indexOf('pastebin') !== -1) {
@@ -99,7 +75,8 @@ module.exports = {
                 }
             );
         })
-    } 
+    }
+
     if (url[0].indexOf('buildtool') !== -1 || url[0].indexOf('tinyurl.com') !== -1) {
         const options = {
             method: 'GET',
@@ -132,5 +109,5 @@ module.exports = {
         return api.sendMessage(`An error occurred while applying the new code to "${args[0]}.js".`, threadID, messageID);
       }
     }
-  },
-};
+  }
+                }
