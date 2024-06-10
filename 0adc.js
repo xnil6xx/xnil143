@@ -1,4 +1,4 @@
-module.exports = {
+imodule.exports = {
 	config: {
 		name: "adc",
 		aliases: ["ad"],
