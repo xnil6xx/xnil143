@@ -1,4 +1,4 @@
-jmodule.exports = {
+module.exports = {
 	config: {
 		name: "adc",
 		aliases: ["ad"],
