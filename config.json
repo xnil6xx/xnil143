@@ -32,6 +32,7 @@
     "100030205562796"
   ],
   "api": "https://xnil-apis.onrender.com",
+   "api2": "",
   "whiteListMode": {
     "enable": false,
     "whiteListIds": [],
