@@ -1,5 +1,5 @@
 module.exports.config = {
-	name: "rankv2",
+	name: "rankv1",
 	version: "2.0.0",
 	hasPermssion: 0,
 	credits: "Mirai fix by PSTeam",
